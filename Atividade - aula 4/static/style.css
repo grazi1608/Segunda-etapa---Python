@@ -1,0 +1,88 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #fcf8f2; 
+    height: 100vh;
+}
+
+.menu {
+    width: 220px;
+    background-color: #ffb6c1; 
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.menu ul {
+    list-style: none; 
+    padding: 0;
+    margin: 0;
+}
+
+.menu ul li a {
+    text-decoration: none; 
+    color: #5d4037; 
+    font-weight: bold;
+    display: block;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 6px; 
+    transition: 0.3s; 
+}
+
+
+.menu ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    color: #000;
+}
+
+.conteudo {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+
+
+.expectativas-container {
+    display: flex;
+    gap: 20px; 
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+
+.card-expectativa {
+    flex: 1;
+    min-width: 280px;
+    padding: 25px;
+    border-radius: 12px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); 
+}
+
+
+.card-enem {
+    background-color: #c293b2; 
+    border-left: 6px solid #96368e; 
+    color: black;
+}
+
+
+.card-estagio {
+    background-color:  #c293b2;
+    border-left: 6px solid #96368e; 
+    color: black;
+}
+
+
+.card-expectativa ul {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.card-expectativa ul li {
+    margin-bottom: 5px;
+}
+

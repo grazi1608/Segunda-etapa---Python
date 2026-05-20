@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Template base para as páginas do Flask Menu. Contém a estrutura básica do HTML -->
+    <link rel="stylesheet" href="static/style.css">
+
+    <title>{% block title %}- Flask Menu{% endblock %} 
+
+    </title>
+
+</head>
+
+<body>
+    <div class="menu">
+        <nav>
+            <ul>
+                <!-- url_for também é usado para navegar entre rotas do Flask -->
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('page1') }}">Sobre mim</a></li>
+                <li><a href="{{ url_for('page2') }}">Profissionalismo</a></li>
+                <li><a href="{{ url_for('page3') }}">Expectativas</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+
+</html>

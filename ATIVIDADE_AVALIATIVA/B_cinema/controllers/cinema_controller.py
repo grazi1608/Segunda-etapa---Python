@@ -1,8 +1,13 @@
+
+
+
+
+from datetime import datetime
+
 from flask import Blueprint, redirect, render_template, request, url_for
 
 from models import Filme, Sala, Sessao, db
 
-# Blueprint = módulo de rotas do cinema (registrar no app.py com register_blueprint)
 cinema_bp = Blueprint("cinema", __name__, url_prefix="/cinema")
 
 
@@ -18,19 +23,13 @@ def cadastrar_sessao():
     salas = Sala.listar()
 
     if request.method == "POST":
-        filme_id = request.form.get("filme_id")
-        sala_id = request.form.get("sala_id")
-        data_hora = request.form.get("data_hora")
-        preco = request.form.get("preco")
-
-        nova_sessao = Sessao(
-            filme_id=filme_id,
-            sala_id=sala_id,
-            data_hora=data_hora,
-            preco=preco
+        sessao = Sessao(
+            filme_id=int(request.form["filme_id"]),
+            sala_id=int(request.form["sala_id"]),
+            data_hora=datetime.fromisoformat(request.form["data_hora"]),
+            preco=float(request.form["preco"]),
         )
-
-        db.session.add(nova_sessao)
+        db.session.add(sessao)
         db.session.commit()
         return redirect(url_for("cinema.index"))
 

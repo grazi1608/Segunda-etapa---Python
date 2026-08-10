@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="alert alert-light border shadow-sm mb-4">
+    <i class="bi bi-quote fs-4 text-secondary"></i> 
+    <span class="fst-italic text-muted">{{ frase }}</span>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Minhas Tarefas</h2>
+    <a href="{{ url_for('nova_tarefa') }}" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> Nova Tarefa
+    </a>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <label for="filtro-status" class="form-label fw-bold">Filtrar por Status:</label>
+        <select id="filtro-status" class="form-select">
+            <option value="">Todas</option>
+            <option value="Pendente">Pendente</option>
+            <option value="Em andamento">Em andamento</option>
+            <option value="Concluída">Concluída</option>
+        </select>
+    </div>
+</div>
+
+<div class="row" id="container-tarefas">
+    {% for t in tarefas %}
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 border-0 shadow-sm {% if t.status == 'Pendente' %}bg-warning-subtle text-dark{% elif t.status == 'Em andamento' %}bg-primary-subtle text-dark{% else %}bg-success-subtle text-dark{% endif %}">
+            <div class="card-body">
+                <h5 class="card-title fw-bold">{{ t.titulo }}</h5>
+                <p class="card-text">{{ t.descricao }}</p>
+                <span class="badge {% if t.status == 'Pendente' %}bg-warning text-dark{% elif t.status == 'Em andamento' %}bg-primary{% else %}bg-success{% endif %} mb-3">
+                    {{ t.status }}
+                </span>
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('editar_tarefa', id=t.id) }}" class="btn btn-sm btn-outline-dark">
+                        <i class="bi bi-pencil"></i> Editar
+                    </a>
+                    <a href="{{ url_for('excluir_tarefa', id=t.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Deseja excluir?')">
+                        <i class="bi bi-trash"></i> Excluir
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p class="text-muted">Nenhuma tarefa encontrada.</p>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// 8. Filtro via AJAX sem recarregar a página
+document.getElementById('filtro-status').addEventListener('change', function() {
+    const status = this.value;
+    fetch(`/api/tarefas?status=${encodeURIComponent(status)}`)
+        .then(res => res.json())
+        .then(data => {
+            const container = document.getElementById('container-tarefas');
+            container.innerHTML = '';
+            
+            if (data.length === 0) {
+                container.innerHTML = '<p class="text-muted">Nenhuma tarefa encontrada.</p>';
+                return;
+            }
+
+            data.forEach(t => {
+                let bgCard = t.status === 'Pendente' ? 'bg-warning-subtle' : (t.status === 'Em andamento' ? 'bg-primary-subtle' : 'bg-success-subtle');
+                let bgBadge = t.status === 'Pendente' ? 'bg-warning text-dark' : (t.status === 'Em andamento' ? 'bg-primary' : 'bg-success');
+
+                container.innerHTML += `
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 border-0 shadow-sm ${bgCard} text-dark">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">${t.titulo}</h5>
+                                <p class="card-text">${t.descricao || ''}</p>
+                                <span class="badge ${bgBadge} mb-3">${t.status}</span>
+                                <div class="d-flex gap-2">
+                                    <a href="/editar/${t.id}" class="btn btn-sm btn-outline-dark"><i class="bi bi-pencil"></i> Editar</a>
+                                    <a href="/excluir/${t.id}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Deseja excluir?')"><i class="bi bi-trash"></i> Excluir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+        });
+});
+</script>
+{% endblock %}

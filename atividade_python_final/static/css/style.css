@@ -1,0 +1,33 @@
+/* Ajustes finos de transição e estilo geral */
+
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+}
+
+/* Efeito de elevação suave ao passar o mouse sobre os cards */
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Suporte complementar para o modo escuro no gráfico e containers */
+body.bg-dark .card {
+    border-color: #373b3e;
+}
+
+body.bg-dark .alert-light {
+    background-color: #2b3035 !important;
+    color: #e0e0e0 !important;
+    border-color: #495057 !important;
+}
+
+/* Ajuste no tamanho do gráfico de pizza */
+#graficoStatus {
+    max-width: 320px;
+    margin: 0 auto;
+}
